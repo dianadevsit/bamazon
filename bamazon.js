@@ -58,7 +58,7 @@ displayChoices = function(err, results) {
     if (answer.idOfItem != "q") {
       checkID(answer.idOfItem);
     } else {
-      console.log(`Good bye!`)
+      console.log(`Have a good one!`)
       connection.end();
     }
   });
@@ -68,7 +68,7 @@ function checkID(itemID) {
     if (err) throw err;
     let countValue = countResults[0].tcount;
     if (countValue <= 0) {
-      console.log(`\r\n`);
+    //   console.log(`\r\n`);
       console.log(`ID "${itemID}" is not in the list of products, Please re-enter a valid ID
       `);
       start();
