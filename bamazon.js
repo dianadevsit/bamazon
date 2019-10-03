@@ -2,20 +2,20 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306, 
-  user: "root", 
-  password: "Dwl24336", 
+  host: "localhost", //Use 'localhost' for your local mysql server
+  port: 3306,  //Your port; if not 3306
+  user: "root", //Your username
+  password: "", //Your password
   database: "bamazon" 
 });
 
 connection.connect(function(err) {
   if (err) throw err;
-  start();
-  //Running the start function after the connection is made
+  showProducts();
+  //Running the showProducts function after the connection is made
 });
 
-function start() {
+function showProducts() {
   connection.query("SELECT item_id, product_name, price FROM products", displayChoices);
 }
 displayChoices = function(err, results) {
@@ -71,7 +71,7 @@ function checkID(itemID) {
     //   console.log(`\r\n`);
       console.log(`ID "${itemID}" is not in the list of products, Please re-enter a valid ID
       `);
-      start();
+      showProducts();
     } else {
         askForQuantity(itemID)
     }
