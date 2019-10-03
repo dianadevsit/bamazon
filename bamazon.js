@@ -1,33 +1,33 @@
+// Creating the connection for the information and the sql database
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-// create the connection information for the sql database
 const connection = mysql.createConnection({
-  host: "localhost", // use 'localhost' for your local mysql server
-  port: 3306, // Port Number
-  user: "root", // Your username
-  password: "", // Your password
-  database: "bamazon" // database name
+  host: "localhost",
+  port: 3306, 
+  user: "root", 
+  password: "", 
+  database: "bamazon" 
 });
-// connect to the mysql server and sql database
+
 connection.connect(function(err) {
   if (err) throw err;
-  // run the start function after the connection is made
   start();
+  //Running the start function after the connection is made
 });
-// Start the processing
+
 function start() {
   connection.query("SELECT item_id, product_name, price FROM products", displayChoices);
 }
 displayChoices = function(err, results) {
   if (err) throw err;
-  //Load results into an Array  
+// An array with results    
   let choiceArray = [];
   for (let i = 0; i < results.length; i++) {
     let item = {};
     item.name = results[i].item_id + "   " + results[i].product_name + "       $ " + results[i].price;
     choiceArray.push(item);
   }
-  // Prompt the user for which item they would like to buy
+  // Prompt the user for items
   inquirer.prompt([{
     name: "choice",
     type: "list",
@@ -63,7 +63,6 @@ displayChoices = function(err, results) {
     }
   });
 }
-// Check if the ID entered is a valid ID
 function checkID(itemID) {
   connection.query("SELECT count(*) as tcount FROM products WHERE item_id = " + itemID, function verifyID(err, countResults) {
     if (err) throw err;
@@ -74,14 +73,14 @@ function checkID(itemID) {
       `);
       start();
     } else {
-      askForQty(itemID)
+        askForQuantity(itemID)
     }
   });
 }
-// If ID is valid, ask for quantity
-function askForQty(itemID) {
+// Ask for quantity
+function askForQuantity(itemID) {
   inquirer.prompt([{
-    name: "itemQty",
+    name: "itemQuantity",
     type: "input",
     message: `How many of it would you like to buy("q" to quit)?`,
     validate: function(value) {
@@ -102,8 +101,8 @@ function askForQty(itemID) {
       }
     }
   }]).then(function(answer) {
-    if (answer.itemQty != "q") {
-      checkInventory(itemID, answer.itemQty);
+    if (answer.itemQuantity != "q") {
+      checkInventory(itemID, answer.itemQuantity);
     } else {
       console.log(`Have a good one!`)
       connection.end();
@@ -111,10 +110,10 @@ function askForQty(itemID) {
   });
 }
 // If valid quantity, check inventory to make sure it is available.
-function checkInventory(itemID, itemQty) {
+function checkInventory(itemID, itemQuantity) {
   connection.query("SELECT product_name, price, stock_quantity FROM products WHERE item_id = " + itemID, function checkStock(err, InvResults) {
     if (err) throw err;
-    compareInventoryToAskQty(InvResults[0].product_name, InvResults[0].stock_quantity, InvResults[0].price, itemID, itemQty);
+    compareInventoryToAskQty(InvResults[0].product_name, InvResults[0].stock_quantity, InvResults[0].price, itemID, itemQuantity);
   });
 }
 
@@ -127,16 +126,16 @@ function compareInventoryToAskQty(name, Quantity, price, id, qty) {
     connection.end();
   }
 }
-// If the sale is complete, update the database with the new available quantity
+// New quantity
 function updateItem(itemID, newQuantity) {
-  // Update stock after sale
+// Update
   connection.query("UPDATE products SET ? WHERE ?", [{
     stock_quantity: newQuantity
   }, {
     item_id: itemID
   }], function(err) {
     if (err) throw err;
-    // console.log("Stock quantity updated successfully!");
+    // console.log("Stock quantity updated");
     connection.end();
   });
 }
