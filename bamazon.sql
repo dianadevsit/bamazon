@@ -14,14 +14,14 @@ CREATE TABLE products (
 );
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Laptop", "Electronics", 999, 100), 
-       ("Camera", "Electronics", 255, 77),
-       ("Tide", "Detergent", 15, 400),
-       ("Vega", "Protein", 30, 24),
-       ("Cetaphil", "Lotion", 12, 222),
-       ("Desk", "Furniture", 135, 12),
-       ("Sheet", "Bedding", 20, 100),
-       ("Reeses", "Candy", 5, 200),
-       ("Sunglasses", "Fashion", 77, 50),
+VALUES ("TV", "Electronics", 555, 100), 
+       ("Smart Phone", "Electronics", 800, 77),
+       ("Charmin", "Toilet Paper", 15, 400),
+       ("Pre-workout", "Fitness", 30, 24),
+       ("Coconut Body Lotion", "Beauty", 12, 222),
+       ("Chair", "Furniture", 135, 12),
+       ("Pillow", "Bedding", 20, 100),
+       ("Hershey's", "Candy", 5, 200),
+       ("Skirt", "Fashion", 77, 50),
        ("Shirt", "Clothing", 29, 200)
        ;
