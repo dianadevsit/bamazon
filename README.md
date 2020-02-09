@@ -9,9 +9,9 @@
 <br>
 <br>
 
-![Image](bamazonchoiceOne.jpg)
+![Image](images/bamazonchoiceOne.JPG)
 
-![Image](bamazonchoiceTwo.jpg)
+![Image](images/bamazonchoiceTwo.JPG)
 
 
 
